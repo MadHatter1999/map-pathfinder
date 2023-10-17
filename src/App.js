@@ -1,3 +1,4 @@
+//App.js Anthony Healy
 import React, { useEffect, useState } from 'react';
 import './css/App.css';
 import MapComponent from './components/MapComponent';
@@ -11,11 +12,11 @@ function App() {
   const [markers, setMarkers] = useState([
     { position: initialPosition, content: "A sample popup." }
   ]);
+  const [destination, setDestination] = useState(null);
 
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
-        console.log(position.coords)
         const { latitude, longitude } = position.coords;
         const newInitialPosition = [latitude, longitude];
         setInitialPosition(newInitialPosition);
@@ -26,17 +27,15 @@ function App() {
     }
   }, []);
 
-
   const handleSearch = async (address) => {
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}`;
-
     try {
       const response = await fetch(url);
       const data = await response.json();
-
       if (data.length) {
         const lat = parseFloat(data[0].lat);
         const lon = parseFloat(data[0].lon);
+        setDestination([lat, lon]);
         setMarkers([...markers, { position: [lat, lon], content: address }]);
       } else {
         alert("Address not found.");
@@ -54,13 +53,11 @@ function App() {
           value={inputValue}
           onSearch={handleSearch}
         />
-
-        <MapComponent center={initialPosition} zoom={13}>
+        <MapComponent center={initialPosition} zoom={13} routeTo={destination}>
           {markers.map((marker, idx) => (
             <CustomMarker key={idx} position={marker.position} content={marker.content} />
           ))}
         </MapComponent>
-
         <button
           style={{
             position: 'absolute',
@@ -79,7 +76,7 @@ function App() {
           }}
           onMouseOver={e => e.currentTarget.style.backgroundColor = '#C12727'}
           onMouseOut={e => e.currentTarget.style.backgroundColor = '#D32F2F'}
-          onClick={() => setMarkers([])}>
+          onClick={() => { setMarkers([]); setDestination(null); }}>
           Clear Markers
         </button>
       </div>
