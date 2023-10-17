@@ -2,25 +2,20 @@
 
 import React from 'react';
 
-function SearchBar({ onAddressChange, value }) {
-
+function SearchBar({ onAddressChange, value, onSearch }) {
     return (
-        <input 
-            type="text"
-            value={value}
-            onChange={e => onAddressChange(e.target.value)}
-            placeholder="Enter an address..."
-            style={{
-                position: 'absolute',
-                top: '10px',
-                left: '40px',
-                padding: '8px',
-                border: '1px solid #ccc',
-                borderRadius: '5px',
-                zIndex: 1001
-            }}
-        />
+        <div style={{ position: 'relative', zIndex: 2 }}>
+            <input
+                type="text"
+                onChange={e => onAddressChange(e.target.value)}
+                value={value} 
+                placeholder="Enter an address..."
+            />
+            <button onClick={() => onSearch(value)}>Search</button>
+        </div>
+
     );
 }
+
 
 export default SearchBar;
