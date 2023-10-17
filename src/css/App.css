@@ -1,0 +1,64 @@
+/* App.css Anthony Healy */
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+.App {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;  /* added padding */
+  position: relative;
+  background-color: #181818;
+  color: #e0e0e0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.card {
+  width: 100%;
+  height: 80vh;
+  background-color: #202020;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  max-width: 1200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* For medium screens */
+@media (min-width: 768px) and (max-width: 1200px) {
+  .card {
+    width: 80%;
+  }
+}
+
+/* For larger screens */
+@media (min-width: 1201px) {
+  .card {
+    width: 60%;
+  }
+}
+.btn-bottom-left {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+}
+
+.dark-mode {
+  background-color: #333;
+  color: white;
+}
+
+.leaflet-container .leaflet-marker-icon {
+  background-image: url('./Images/leaflet-images/marker-icon.png');
+}
+
+.leaflet-container .leaflet-marker-shadow {
+  background-image: url('./Images/leaflet-images/marker-shadow.png');
+}
