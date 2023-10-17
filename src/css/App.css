@@ -12,7 +12,7 @@ body, html {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  padding: 20px;  /* added padding */
+  padding: 20px;
   position: relative;
   background-color: #181818;
   color: #e0e0e0;
@@ -20,7 +20,7 @@ body, html {
 }
 
 .card {
-  width: 100%;
+  width: 95%;
   height: 80vh;
   background-color: #202020;
   border-radius: 8px;
@@ -29,25 +29,21 @@ body, html {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
+  position: relative; /* added for absolute positioning inside */
 }
 
 /* For medium screens */
 @media (min-width: 768px) and (max-width: 1200px) {
   .card {
-    width: 80%;
+    width: 85%; /* Increase width for medium screens */
   }
 }
 
 /* For larger screens */
 @media (min-width: 1201px) {
   .card {
-    width: 60%;
+    width: 75%; /* Increase width for large screens */
   }
-}
-.btn-bottom-left {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
 }
 
 .dark-mode {
