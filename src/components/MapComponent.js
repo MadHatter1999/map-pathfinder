@@ -11,29 +11,27 @@ const Routing = ({ positions }) => {
   useEffect(() => {
     if (!map || positions.length <= 1) return;
 
-    if (routingControlRef.current) {
-      map.removeControl(routingControlRef.current);
+    // Check if there's an existing routing control
+    if (!routingControlRef.current) {
+      const routingControl = L.Routing.control({
+        waypoints: positions.map(pos => L.latLng(pos)),
+        routeWhileDragging: true,
+        createMarker: function(i, wp, nWps) {
+          return null;  // Prevent default marker creation
+        }
+      }).addTo(map);
+
+      routingControlRef.current = routingControl;
+    } else {
+      // Update the existing routing control with new waypoints
+      routingControlRef.current.setWaypoints(positions.map(pos => L.latLng(pos)));
     }
 
-    const routingControl = L.Routing.control({
-      waypoints: positions.map(pos => L.latLng(pos)),
-      routeWhileDragging: true,
-      createMarker: function(i, wp, nWps) {
-        return null;  // Prevent default marker creation
-      }
-    }).addTo(map);
-
-    routingControlRef.current = routingControl;
-
-    return () => {
-      if (routingControlRef.current) {
-        map.removeControl(routingControlRef.current);
-      }
-    };
   }, [positions, map]);
 
   return null;
 };
+
 
 const MapComponent = forwardRef(({ children, center, zoom, route }, ref) => {
   const mapInstance = useRef(null);
