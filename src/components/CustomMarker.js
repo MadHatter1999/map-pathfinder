@@ -7,7 +7,7 @@ import 'leaflet/dist/images/marker-icon-2x.png';
 function CustomMarker({ position, content }) {
   return (
     <Marker position={position}>
-      {/* Popup removed */}
+      {/* Place a popup here */}
     </Marker>
   );
 }
