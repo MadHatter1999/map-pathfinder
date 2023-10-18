@@ -1,4 +1,4 @@
-//App.js Anthony Healy
+// App.js Anthony Healy
 import React, { useEffect, useState } from 'react';
 import './css/App.css';
 import MapComponent from './components/MapComponent';
@@ -12,19 +12,28 @@ function App() {
   const [markers, setMarkers] = useState([
     { position: initialPosition, content: "A sample popup." }
   ]);
-  const [destination, setDestination] = useState(null);
+  const [route, setRoute] = useState([initialPosition]);
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        const { latitude, longitude } = position.coords;
-        const newInitialPosition = [latitude, longitude];
-        setInitialPosition(newInitialPosition);
-        setMarkers([{ position: newInitialPosition, content: "Your current location." }]);
-      }, (error) => {
-        console.error("Error accessing geolocation:", error);
-      });
+    const retrieveGeolocation = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+          const { latitude, longitude, accuracy } = position.coords;
+          if (accuracy > 700) {
+            console.log("Accuracy too low.", accuracy, " Trying again...");
+            setTimeout(retrieveGeolocation, 19000);
+            return;
+          }
+          const newInitialPosition = [latitude, longitude];
+          setInitialPosition(newInitialPosition);
+          setMarkers([{ position: newInitialPosition, content: "Your current location." }]);
+          setRoute([newInitialPosition]);
+        }, (error) => {
+          console.error("Error accessing geolocation:", error);
+        });
+      }
     }
+    retrieveGeolocation();
   }, []);
 
   const handleSearch = async (address) => {
@@ -35,8 +44,11 @@ function App() {
       if (data.length) {
         const lat = parseFloat(data[0].lat);
         const lon = parseFloat(data[0].lon);
-        setDestination([lat, lon]);
-        setMarkers([...markers, { position: [lat, lon], content: address }]);
+        
+        setMarkers(prevMarkers => [...prevMarkers, { position: [lat, lon], content: address }]);
+        
+        // Append the new destination to the existing route
+        setRoute(prevRoute => [...prevRoute, [lat, lon]]);
       } else {
         alert("Address not found.");
       }
@@ -53,7 +65,7 @@ function App() {
           value={inputValue}
           onSearch={handleSearch}
         />
-        <MapComponent center={initialPosition} zoom={13} routeTo={destination}>
+        <MapComponent center={initialPosition} zoom={13} route={route}>
           {markers.map((marker, idx) => (
             <CustomMarker key={idx} position={marker.position} content={marker.content} />
           ))}
@@ -76,7 +88,7 @@ function App() {
           }}
           onMouseOver={e => e.currentTarget.style.backgroundColor = '#C12727'}
           onMouseOut={e => e.currentTarget.style.backgroundColor = '#D32F2F'}
-          onClick={() => { setMarkers([]); setDestination(null); }}>
+          onClick={() => { setMarkers([]); setRoute([initialPosition]); }}>
           Clear Markers
         </button>
       </div>
