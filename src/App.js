@@ -44,9 +44,9 @@ function App() {
       if (data.length) {
         const lat = parseFloat(data[0].lat);
         const lon = parseFloat(data[0].lon);
-        
+
         setMarkers(prevMarkers => [...prevMarkers, { position: [lat, lon], content: address }]);
-        
+
         // Append the new destination to the existing route
         setRoute(prevRoute => [...prevRoute, [lat, lon]]);
       } else {
@@ -60,7 +60,7 @@ function App() {
   return (
     <div className="App">
       <div className="card">
-        <SearchBar 
+        <SearchBar
           onAddressChange={value => setInputValue(value)}
           value={inputValue}
           onSearch={handleSearch}
