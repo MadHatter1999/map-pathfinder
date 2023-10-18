@@ -88,7 +88,7 @@ function App() {
           }}
           onMouseOver={e => e.currentTarget.style.backgroundColor = '#C12727'}
           onMouseOut={e => e.currentTarget.style.backgroundColor = '#D32F2F'}
-          onClick={() => { setMarkers([]); setRoute([initialPosition]); }}>
+          onClick={() => { setMarkers([]); setRoute([]); }}>
           Clear Markers
         </button>
       </div>
