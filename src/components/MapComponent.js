@@ -17,14 +17,14 @@ const Routing = ({ positions }) => {
         waypoints: positions.map(pos => L.latLng(pos)),
         routeWhileDragging: false,
         draggableWaypoints: false,
-        show: true,  // Ensure the directions pane is visible
+        show: true, //Directional pane
         containerClassName: 'custom-routing-container',
         createMarker: function(i, wp, nWps) {
           return null;  // Prevent default marker creation
         },
         lineOptions: {
           styles: [
-            {color: 'green', opacity: 1, weight: 5}  // Here we're setting the route line to be green.
+            {color: 'green', opacity: 1, weight: 5}
           ]
         }
       }).addTo(map);
