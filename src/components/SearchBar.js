@@ -1,8 +1,12 @@
 // components/SearchBar.js Anthony Healy
-
 import React from 'react';
 
 function SearchBar({ onAddressChange, value, onSearch }) {
+    const handleKeyPress = (event) => {
+        if (event.charCode === 13) { // charCode 13 is the Enter key
+            onSearch(value); // Trigger the search function with the current input value
+        }
+    };
     return (
         <div style={{ position: 'relative', zIndex: 2, display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
             <input
@@ -10,6 +14,7 @@ function SearchBar({ onAddressChange, value, onSearch }) {
                 onChange={e => onAddressChange(e.target.value)}
                 value={value}
                 placeholder="Enter an address..."
+                onKeyPress={handleKeyPress} // Added this line
                 style={{
                     padding: '10px',
                     borderRadius: '4px',

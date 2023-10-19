@@ -9,9 +9,9 @@ const Routing = ({ positions }) => {
   const routingControlRef = useRef(null);
 
   useEffect(() => {
-    if (!map || positions.length <= 1) return;
-
-    // Check if there's an existing routing control
+    if (!map || positions.length <= 1) {
+      return;
+    }
     if (!routingControlRef.current) {
       const routingControl = L.Routing.control({
         waypoints: positions.map(pos => L.latLng(pos)),
@@ -23,14 +23,28 @@ const Routing = ({ positions }) => {
 
       routingControlRef.current = routingControl;
     } else {
-      // Update the existing routing control with new waypoints
       routingControlRef.current.setWaypoints(positions.map(pos => L.latLng(pos)));
     }
+
+    // Cleanup function
+    return () => {
+      if (routingControlRef.current) {
+        // Ensure that map is still valid before removing layers or controls
+        if (map && map.removeControl) {
+          // Explicitly clear routes to ensure no lingering layers
+          routingControlRef.current.getPlan().setWaypoints([]);
+          map.removeControl(routingControlRef.current);
+        }
+        routingControlRef.current = null;
+      }
+    };
 
   }, [positions, map]);
 
   return null;
 };
+
+
 
 
 const MapComponent = forwardRef(({ children, center, zoom, route }, ref) => {
