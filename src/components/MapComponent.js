@@ -28,7 +28,6 @@ const Routing = ({ positions }) => {
           ]
         }
       }).addTo(map);
-      
 
       routingControlRef.current = routingControl;
     } else {
