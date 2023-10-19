@@ -21,8 +21,14 @@ const Routing = ({ positions }) => {
         containerClassName: 'custom-routing-container',
         createMarker: function(i, wp, nWps) {
           return null;  // Prevent default marker creation
+        },
+        lineOptions: {
+          styles: [
+            {color: 'green', opacity: 1, weight: 5}  // Here we're setting the route line to be green.
+          ]
         }
       }).addTo(map);
+      
 
       routingControlRef.current = routingControl;
     } else {
@@ -32,7 +38,6 @@ const Routing = ({ positions }) => {
     // Cleanup function
     return () => {
       if (routingControlRef.current) {
-        // Ensure that map is still valid before removing layers or controls
         if (map && map.removeControl) {
           // Explicitly clear routes to ensure no lingering layers
           routingControlRef.current.getPlan().setWaypoints([]);
