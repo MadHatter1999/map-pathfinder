@@ -3,7 +3,7 @@ import React, { useRef, useEffect, forwardRef, useImperativeHandle } from 'react
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet-routing-machine';
-
+import '../css/MapComponent.css'
 const Routing = ({ positions }) => {
   const map = useMap();
   const routingControlRef = useRef(null);
@@ -15,7 +15,10 @@ const Routing = ({ positions }) => {
     if (!routingControlRef.current) {
       const routingControl = L.Routing.control({
         waypoints: positions.map(pos => L.latLng(pos)),
-        routeWhileDragging: true,
+        routeWhileDragging: false,
+        draggableWaypoints: false,
+        show: true,  // Ensure the directions pane is visible
+        containerClassName: 'custom-routing-container',
         createMarker: function(i, wp, nWps) {
           return null;  // Prevent default marker creation
         }

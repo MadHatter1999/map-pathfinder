@@ -1,0 +1,5 @@
+/* MapComponent.css Anthony Healy*/
+.leaflet-routing-alt {
+    max-height: 400px;
+    overflow-y: auto;
+  }
